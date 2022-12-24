@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
+
 
 public class Main extends JPanel {
 
@@ -11,18 +11,21 @@ public class Main extends JPanel {
     public static int row = height / CELL_SIZE;//每格寬
     public static int column = width / CELL_SIZE;//每格高
 
-    private Snake snake;//創建蛇
+    private Snake snake;//蛇
+    private Fruit fruit;//果實
 
     public Main(){
         snake = new Snake();//創建蛇
+        fruit = new Fruit();//創建果實
+
     }
 
     @Override
-    public void paintComponent(Graphics g){ // 畫出蛇
+    public void paintComponent(Graphics g){
         //draw a black background
         g.fillRect(0, 0, width, height);//(0,0)開始畫
         snake.drawSnake(g);
-
+        fruit.drawFruit(g);
     }
 
     // 設定視窗大小
