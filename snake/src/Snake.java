@@ -18,4 +18,8 @@ public class Snake {
             g.fillOval(n.x, n.y, Main.CELL_SIZE, Main.CELL_SIZE);
         }
     }
+
+    public ArrayList<Node> getSnakeBody(){
+        return snakeBody;
+    }
 }
