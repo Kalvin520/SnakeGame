@@ -14,8 +14,15 @@ public class Snake {
     }
 
     public void drawSnake(Graphics g){
-        g.setColor(Color.ORANGE);
-        for (Node n : snakeBody){
+        for (int i = 0; i < snakeBody.size(); i++){
+            if (i == 0 ){
+                g.setColor(Color.GREEN);
+            }else {
+                g.setColor(Color.orange);
+            }
+
+            Node n = snakeBody.get(i); 
+
             if (n.x >= Main.width){
                 n.x = 0;
             }
