@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.*;
 import java.util.TimerTask;
 
-public class Main extends JPanel {
+public class Main extends JPanel implements KeyListener {
     public static final int CELL_SIZE = 20;
     public static int width = 400;//視窗高度
     public static int height = 400;
@@ -15,6 +17,9 @@ public class Main extends JPanel {
     private Timer t;
     private static String direction;
     private int speed = 100;
+
+    private Boolean allowKeyPress;//防止亂按導致撞到snake身體
+
 
     public Main(){
         snake = new Snake();//創建蛇
@@ -27,7 +32,13 @@ public class Main extends JPanel {
             }
         },0, speed);
         direction = "Right";
+        addKeyListener(this);
+        allowKeyPress = true;// 初始為true才可以動作
     }
+
+
+
+
 
     @Override
     public void paintComponent(Graphics g){
@@ -56,6 +67,9 @@ public class Main extends JPanel {
         Node newHead = new Node(snakeX,snakeY); // 新的頭
         snake.getSnakeBody().remove(snake.getSnakeBody().size()-1);//刪除尾巴
         snake.getSnakeBody().add(0,newHead);
+
+        allowKeyPress = true;//重新指定為true使可以繼續鍵入key
+        requestFocusInWindow();
     }
 
     // 設定視窗大小
@@ -64,7 +78,7 @@ public class Main extends JPanel {
         return new Dimension(width, height);
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         JFrame window = new JFrame("Snake Game");
         window.setContentPane(new Main());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
@@ -72,5 +86,32 @@ public class Main extends JPanel {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setResizable(false); //無法調整視窗大小
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
+            if (allowKeyPress){
+            if (e.getKeyCode() == 37 && !direction.equals("Right")){
+            direction = "Left";
+            } else if (e.getKeyCode() == 38 && !direction.equals("Down")) {
+            direction = "Up";
+            } else if (e.getKeyCode() == 39 && !direction.equals("Left")) {
+            direction = "Right";
+            }else if (e.getKeyCode() ==40 && !direction.equals("Up")) {
+            direction = "Down";
+            }
+            allowKeyPress = false;//防止亂按導致撞到snake身體
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
